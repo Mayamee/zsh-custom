@@ -58,7 +58,7 @@ add_prompt_sign() {
 add_hostname_to_prompt() {
 	# void
 	local prompt_hostname='%m'
-	echo $(c_bold_xterm_green $prompt_hostname)
+	echo "${green}host:$prompt_hostname${reset}"
 }
 
 add_jobs_info_to_prompt() {
@@ -91,8 +91,9 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="$git_suffix_raw${reset} "
 # ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE=">"
 # ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE="<"
 # ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE="$red<>"
+RPROMPT='$(add_hostname_to_prompt)'
 PROMPT='$(git_prompt_info)'
-PROMPT+='$(add_hostname_to_prompt)'
+PROMPT+='$(add_user_to_prompt)'
 PROMPT+=' '
 PROMPT+='$(add_current_dir_to_prompt)'
 PROMPT+=' '
