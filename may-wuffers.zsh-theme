@@ -69,7 +69,7 @@ add_hostname_to_prompt() {
 add_jobs_info_to_prompt() {
 	# void
 	local jobs_info=''
-	local jobs_count=$(jobs -l | wc -l)
+	local jobs_count=$(jobs -l | grep '\[' | wc -l)
 	if [[ ${jobs_count} -gt 0 ]]; then
 		jobs_info="${white}${jobs_count}:${reset}"
 	fi
