@@ -34,14 +34,19 @@ c_bold_xterm_green() {
 	echo $(get_bold $(get_color $1 40))
 }
 
+c_bold_xterm_pink() {
+	# $1 = text
+	echo $(get_bold $(get_color $1 200))
+}
+
 add_user_to_prompt() {
 	# void
 	local prompt_user='%n'
 	local user_id=$(id -u)
 	if [[ $user_id -eq 0 ]]; then
-		echo $(c_bold_xterm_red $prompt_user)
+		echo "${white}$prompt_user${reset}"
 	else
-		echo $(c_bold_xterm_green $prompt_user)
+		echo "${white}$prompt_user${reset}"
 	fi
 }
 
@@ -49,7 +54,7 @@ add_prompt_sign() {
 	# void
 	local curr_user_id=$(id -u)
 	if [[ $curr_user_id -eq 0 ]]; then
-		echo $(c_bold_xterm_red "#")
+		echo $(c_bold_xterm_green "#")
 	else
 		echo $(c_bold_xterm_green "$")
 	fi
@@ -58,7 +63,7 @@ add_prompt_sign() {
 add_hostname_to_prompt() {
 	# void
 	local prompt_hostname='%m'
-	echo "${green}host:$prompt_hostname${reset}"
+	echo "${green}(${reset}${white}$prompt_hostname${reset}${green})${reset}"
 }
 
 add_jobs_info_to_prompt() {
@@ -66,7 +71,7 @@ add_jobs_info_to_prompt() {
 	local jobs_info=''
 	local jobs_count=$(jobs -l | wc -l)
 	if [[ ${jobs_count} -gt 0 ]]; then
-		jobs_info="${red}${jobs_count}:${reset}"
+		jobs_info="${white}${jobs_count}:${reset}"
 	fi
 	echo "$jobs_info"
 }
@@ -79,8 +84,8 @@ add_current_dir_to_prompt() {
 
 local git_prefix_raw='git:('
 local git_suffix_raw=')'
-ZSH_THEME_GIT_PROMPT_PREFIX="${yellow}$git_prefix_raw"
-ZSH_THEME_GIT_PROMPT_SUFFIX="$git_suffix_raw${reset} "
+ZSH_THEME_GIT_PROMPT_PREFIX="${green}$git_prefix_raw${reset}${white}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="${reset}${green}$git_suffix_raw${reset} "
 # ZSH_THEME_GIT_PROMPT_DIRTY=''
 # ZSH_THEME_GIT_PROMPT_CLEAN=""
 # ZSH_THEME_GIT_PROMPT_UNTRACKED="$blue%%"
@@ -95,8 +100,8 @@ RPROMPT='$(add_hostname_to_prompt)'
 PROMPT='$(git_prompt_info)'
 PROMPT+='$(add_user_to_prompt)'
 PROMPT+=' '
-PROMPT+='$(add_current_dir_to_prompt)'
-PROMPT+=' '
+# PROMPT+='$(add_current_dir_to_prompt)'
+# PROMPT+=' '
 PROMPT+='$(add_jobs_info_to_prompt)'
 PROMPT+='$(add_prompt_sign)'
 PROMPT+=' '
